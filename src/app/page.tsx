@@ -4,18 +4,18 @@ import { Button } from "@/components/Button";
 import { Counter } from "@/components/Counter";
 import { Marquee } from "@/components/Marquee";
 import { Parallax } from "@/components/Parallax";
-import { WaffleBuilder } from "@/components/WaffleBuilder";
+import { PhotoStory } from "@/components/PhotoStory";
 import { ProductCard } from "@/components/ProductCard";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import {
-  ArrowDownIcon,
   ArrowIcon,
   InstagramIcon,
   MapPinIcon,
   PhoneIcon,
 } from "@/components/icons";
 import { featuredProducts } from "@/data/menu";
+import { boxStory, waffleStory } from "@/data/stories";
 import { site } from "@/data/site";
 
 const stats = [
@@ -110,9 +110,18 @@ export default function HomePage() {
 
       <Marquee />
 
-      <div id="hikaye" className="scroll-mt-0">
-        <WaffleBuilder />
-      </div>
+      <PhotoStory
+        id="hikaye"
+        eyebrow="Kaydır, adım adım izle"
+        heading={
+          <>
+            Bir Bambaşka Waffle{" "}
+            <em className="italic text-gold-300">nasıl doğar?</em>
+          </>
+        }
+        frames={waffleStory}
+        cta={{ href: "/menu#waffle", label: "Bambaşka Waffle · ₺310" }}
+      />
 
       {/* ───────────── Featured products ───────────── */}
       <section id="lezzetler" className="relative scroll-mt-20 py-24 lg:py-32">
@@ -194,6 +203,20 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ───────────── Bambaşka Box story ───────────── */}
+      <PhotoStory
+        id="box"
+        eyebrow="Paylaşmalık"
+        heading={
+          <>
+            Bambaşka Box&rsquo;un{" "}
+            <em className="italic text-gold-300">içinde ne var?</em>
+          </>
+        }
+        frames={boxStory}
+        cta={{ href: "/menu#waffle", label: "Bambaşka Box · ₺1.350" }}
+      />
 
       {/* ───────────── Concept / venue ───────────── */}
       <section className="py-24 lg:py-32">
