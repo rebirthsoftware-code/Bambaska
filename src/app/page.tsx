@@ -1,7 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/Button";
+import { Counter } from "@/components/Counter";
 import { Marquee } from "@/components/Marquee";
+import { Parallax } from "@/components/Parallax";
+import { WaffleBuilder } from "@/components/WaffleBuilder";
 import { ProductCard } from "@/components/ProductCard";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -16,10 +19,10 @@ import { featuredProducts } from "@/data/menu";
 import { site } from "@/data/site";
 
 const stats = [
-  { value: "2019", label: "Karabük'te kuruluş" },
-  { value: "30+", label: "Özgün ürün" },
-  { value: "6", label: "Menü kategorisi" },
-  { value: "%100", label: "Belçika çikolatası" },
+  { value: <>{site.foundedYear}</>, label: "Karabük'te kuruluş" },
+  { value: <Counter to={30} suffix="+" />, label: "Özgün ürün" },
+  { value: <Counter to={6} />, label: "Menü kategorisi" },
+  { value: <Counter to={100} prefix="%" />, label: "Belçika çikolatası" },
 ];
 
 export default function HomePage() {
@@ -29,20 +32,22 @@ export default function HomePage() {
     <>
       {/* ───────────── Hero ───────────── */}
       <section className="relative isolate flex min-h-[100svh] items-end overflow-hidden bg-forest-900 text-cream-100">
-        <Image
-          src="/images/hero/table.webp"
-          alt=""
-          fill
-          priority
-          sizes="100vw"
-          className="object-cover object-center opacity-70"
-        />
+        <div className="hero-zoom absolute inset-0">
+          <Image
+            src="/images/hero/waffle.webp"
+            alt="Belçika çikolatalı, çilekli Bambaşka waffle"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-[62%_center] sm:object-[70%_center]"
+          />
+        </div>
         <div
-          className="absolute inset-0 bg-gradient-to-t from-forest-900 via-forest-900/55 to-forest-900/30"
+          className="absolute inset-0 bg-gradient-to-t from-forest-900 via-forest-900/45 to-forest-900/15"
           aria-hidden
         />
         <div
-          className="absolute inset-0 bg-gradient-to-r from-forest-900/70 via-transparent to-transparent"
+          className="absolute inset-0 bg-gradient-to-r from-forest-900/85 via-forest-900/35 to-transparent"
           aria-hidden
         />
 
@@ -53,58 +58,61 @@ export default function HomePage() {
           width={1100}
           height={817}
           priority
-          className="animate-float pointer-events-none absolute -right-12 top-[14%] w-[46vw] max-w-[620px] drop-shadow-[0_30px_40px_rgba(0,0,0,0.5)] sm:-right-6 sm:top-[12%] [--float-rotate:-6deg]"
+          className="rise animate-float pointer-events-none absolute -right-12 top-[14%] w-[46vw] max-w-[520px] drop-shadow-[0_30px_40px_rgba(0,0,0,0.5)] sm:-right-6 sm:top-[12%] [--d:500ms] [--float-rotate:-6deg]"
         />
         <Image
           src="/images/brand/waffle-float-2.webp"
           alt=""
           width={1100}
           height={1100}
-          className="animate-float-slow pointer-events-none absolute -bottom-10 -left-16 hidden w-[32vw] max-w-[440px] drop-shadow-[0_30px_40px_rgba(0,0,0,0.5)] md:block [--float-rotate:8deg]"
+          className="rise animate-float-slow pointer-events-none absolute -bottom-10 -left-16 hidden w-[30vw] max-w-[400px] drop-shadow-[0_30px_40px_rgba(0,0,0,0.5)] md:block [--d:700ms] [--float-rotate:8deg]"
         />
 
         <div className="relative mx-auto w-full max-w-7xl px-5 pb-20 pt-40 sm:px-8 lg:pb-28">
-          <Reveal>
-            <p className="mb-6 inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.32em] text-gold-400">
-              <span className="h-px w-10 bg-gold-400" aria-hidden />
-              Karabük · Est. {site.foundedYear}
-            </p>
-          </Reveal>
-          <Reveal delay={100}>
-            <h1 className="max-w-4xl font-display text-[clamp(3rem,9vw,7.5rem)] leading-[0.95] tracking-tight">
-              Her lokmada{" "}
-              <em className="font-normal italic text-gold-300">bambaşka</em> bir
-              mutluluk.
-            </h1>
-          </Reveal>
-          <Reveal delay={200}>
-            <p className="mt-7 max-w-xl text-base leading-relaxed text-cream-100/80 sm:text-lg">
-              Taptaze pişen waffle, gerçek Belçika çikolatası ve sıcacık bir
-              atmosfer. {site.foundedYear}&rsquo;dan beri Karabük&rsquo;ün tatlı
-              durağı.
-            </p>
-          </Reveal>
-          <Reveal
-            delay={300}
-            className="mt-10 flex flex-wrap items-center gap-4"
-          >
+          <p className="rise mb-6 inline-flex items-center gap-3 text-[11px] font-bold uppercase tracking-[0.32em] text-gold-400 [--d:100ms]">
+            <span className="h-px w-10 bg-gold-400" aria-hidden />
+            Karabük · Est. {site.foundedYear}
+          </p>
+          <h1 className="max-w-4xl font-display text-[clamp(3rem,9vw,7.5rem)] leading-[0.95] tracking-tight">
+            <span className="rise block [--d:200ms]">Her lokmada</span>
+            <span className="rise block [--d:320ms]">
+              <em className="shine font-normal italic text-gold-300">
+                bambaşka
+              </em>{" "}
+              bir
+            </span>
+            <span className="rise block [--d:440ms]">mutluluk.</span>
+          </h1>
+          <p className="rise mt-7 max-w-xl text-base leading-relaxed text-cream-100/80 sm:text-lg [--d:600ms]">
+            Taptaze pişen waffle, gerçek Belçika çikolatası ve sıcacık bir
+            atmosfer. {site.foundedYear}&rsquo;dan beri Karabük&rsquo;ün tatlı
+            durağı.
+          </p>
+          <div className="rise mt-10 flex flex-wrap items-center gap-4 [--d:740ms]">
             <Button href="/menu">Menüyü Keşfet</Button>
             <Button href="/franchise" variant="outline-light" arrow={false}>
               Franchise Ol
             </Button>
-          </Reveal>
+          </div>
         </div>
 
         <a
-          href="#lezzetler"
-          className="absolute bottom-6 right-6 hidden h-12 w-12 items-center justify-center rounded-full border border-cream-100/30 text-cream-100/70 transition hover:border-gold-400 hover:text-gold-300 lg:flex"
+          href="#hikaye"
+          className="rise absolute bottom-6 right-6 hidden flex-col items-center gap-2 text-[10px] font-bold uppercase tracking-[0.3em] text-cream-100/60 transition hover:text-gold-300 lg:flex [--d:1000ms]"
           aria-label="Aşağı kaydır"
         >
-          <ArrowDownIcon className="h-5 w-5 animate-bounce" />
+          Kaydır
+          <span className="relative h-14 w-px overflow-hidden bg-cream-100/20">
+            <span className="scroll-dash absolute left-0 top-0 h-6 w-px bg-gold-400" />
+          </span>
         </a>
       </section>
 
       <Marquee />
+
+      <div id="hikaye" className="scroll-mt-0">
+        <WaffleBuilder />
+      </div>
 
       {/* ───────────── Featured products ───────────── */}
       <section id="lezzetler" className="relative scroll-mt-20 py-24 lg:py-32">
@@ -137,7 +145,7 @@ export default function HomePage() {
         <div className="waffle-grid absolute inset-0 opacity-30" aria-hidden />
         <div className="relative mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-2 lg:gap-20">
           <Reveal className="relative">
-            <div className="relative aspect-[4/5] overflow-hidden rounded-[2rem] shadow-soft">
+            <Parallax className="relative aspect-[4/5] rounded-[2rem] shadow-soft">
               <Image
                 src="/images/hero/bowl-hands.webp"
                 alt="Bambaşka Waffle çalışanı, çikolatalı waffle bowl sunarken"
@@ -145,7 +153,7 @@ export default function HomePage() {
                 sizes="(min-width: 1024px) 45vw, 100vw"
                 className="object-cover"
               />
-            </div>
+            </Parallax>
             <div className="absolute -bottom-6 -right-4 hidden rounded-2xl bg-gold-400 p-6 text-forest-900 shadow-soft sm:block lg:-right-10">
               <p className="font-display text-5xl leading-none">
                 {site.foundedYear}
