@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+@theme {
+  --color-cream-50: #fdfbf6;
+  --color-cream-100: #fbf6ec;
+  --color-cream-200: #f3eadb;
+  --color-cream-300: #e8dcc6;
+
+  --color-forest-500: #0f4d22;
+  --color-forest-700: #0b3b1a;
+  --color-forest-800: #002c07;
+  --color-forest-900: #011d05;
+
+  --color-gold-300: #e9d7a8;
+  --color-gold-400: #d7b46a;
+  --color-gold-500: #c9a24f;
+  --color-gold-600: #a98332;
+
+  --color-caramel-500: #b75d02;
+  --color-caramel-600: #94490a;
+  --color-berry-500: #b3263f;
+
+  --color-ink-900: #1c1a15;
+  --color-ink-700: #3d3a33;
+  --color-ink-500: #6b665b;
+
+  --font-display: var(--font-playfair), "Georgia", serif;
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-soft: 0 20px 60px -20px rgb(28 26 21 / 0.25);
+  --shadow-card: 0 10px 30px -12px rgb(28 26 21 / 0.18);
+
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 9s ease-in-out infinite;
+  --animate-marquee: marquee 40s linear infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0) rotate(var(--float-rotate, 0deg));
+    }
+    50% {
+      transform: translate3d(0, -18px, 0) rotate(var(--float-rotate, 0deg));
+    }
+  }
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream-100);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-gold-400);
+  color: var(--color-forest-900);
+}
+
+/* Subtle paper grain over cream surfaces */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.35;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.2 0 0 0 0 0.17 0 0 0 0 0.1 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* Waffle grid pattern, used as a faint decorative texture */
+.waffle-grid {
+  background-image:
+    linear-gradient(to right, rgb(215 180 106 / 0.16) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(215 180 106 / 0.16) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* Logo tinting: the brand SVGs are gold; mask them to inherit currentColor */
+.logo-mask {
+  display: inline-block;
+  background-color: currentColor;
+  -webkit-mask: var(--logo) center / contain no-repeat;
+  mask: var(--logo) center / contain no-repeat;
+}
+
+/* Scroll reveal (only hidden when JS has confirmed it is running, see layout.tsx) */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .animate-float,
+  .animate-float-slow,
+  .animate-marquee {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
