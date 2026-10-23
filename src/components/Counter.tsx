@@ -12,7 +12,13 @@ type Props = {
 };
 
 /** Counts up from 0 once it scrolls into view. Renders the final value without JS. */
-export function Counter({ to, prefix = "", suffix = "", duration = 1400, className }: Props) {
+export function Counter({
+  to,
+  prefix = "",
+  suffix = "",
+  duration = 1400,
+  className,
+}: Props) {
   const ref = useRef<HTMLSpanElement>(null);
   const [value, setValue] = useState(to);
 

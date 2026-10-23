@@ -4,7 +4,10 @@ import { Button } from "@/components/Button";
 import { Counter } from "@/components/Counter";
 import { Marquee } from "@/components/Marquee";
 import { Parallax } from "@/components/Parallax";
-import { PhotoStory } from "@/components/PhotoStory";
+import { BoxFeature } from "@/components/BoxFeature";
+import { InstagramStrip } from "@/components/InstagramStrip";
+import { ProcessSteps } from "@/components/ProcessSteps";
+import { SignatureShowcase } from "@/components/SignatureShowcase";
 import { ProductCard } from "@/components/ProductCard";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -14,8 +17,7 @@ import {
   MapPinIcon,
   PhoneIcon,
 } from "@/components/icons";
-import { featuredProducts } from "@/data/menu";
-import { boxStory, waffleStory } from "@/data/stories";
+import { categories, featuredProducts } from "@/data/menu";
 import { site } from "@/data/site";
 
 const stats = [
@@ -26,7 +28,17 @@ const stats = [
 ];
 
 export default function HomePage() {
-  const featured = featuredProducts.slice(0, 5);
+  const featured = featuredProducts;
+  const picks = [
+    "klasik-waffle",
+    "belgian-waffle",
+    "brownie",
+    "orman-meyveli-cheesecake",
+  ]
+    .map((slug) =>
+      categories.flatMap((c) => c.items).find((p) => p.slug === slug),
+    )
+    .filter((p): p is NonNullable<typeof p> => Boolean(p));
 
   return (
     <>
@@ -110,27 +122,42 @@ export default function HomePage() {
 
       <Marquee />
 
-      <PhotoStory
-        id="hikaye"
-        eyebrow="Kaydır, adım adım izle"
-        heading={
-          <>
-            Bir Bambaşka Waffle{" "}
-            <em className="italic text-gold-300">nasıl doğar?</em>
-          </>
-        }
-        frames={waffleStory}
-        cta={{ href: "/menu#waffle", label: "Bambaşka Waffle · ₺310" }}
-      />
+      {/* ───────────── Signature showcase ───────────── */}
+      <section id="hikaye" className="py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <SectionHeading
+            eyebrow="İmza Lezzetler"
+            title="Menümüzün yıldızları."
+            description="Üzerine gelin, yakından bakın. Her biri kendi mutfağımızda, kendi reçetemizle hazırlanır."
+          />
+          <div className="mt-14">
+            <SignatureShowcase products={featured} />
+          </div>
+        </div>
+      </section>
+
+      {/* ───────────── Process ───────────── */}
+      <section className="bg-cream-200 py-24 lg:py-32">
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <SectionHeading
+            align="center"
+            eyebrow="Nasıl Yapıyoruz"
+            title="Dört adım, hiç kısayol yok."
+          />
+          <div className="mt-14">
+            <ProcessSteps />
+          </div>
+        </div>
+      </section>
 
       {/* ───────────── Featured products ───────────── */}
       <section id="lezzetler" className="relative scroll-mt-20 py-24 lg:py-32">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
             <SectionHeading
-              eyebrow="Bambaşka Lezzetler"
-              title="Özgün reçeteler, en sevilen tatlar."
-              description="Her biri kendi mutfağımızda, kendi reçetemizle hazırlanıyor. Menümüzün en çok sevilenleriyle tanışın."
+              eyebrow="Menüden Seçmeler"
+              title="Klasikler, cheesecake'ler ve daha fazlası."
+              description="Altı kategori, otuzun üzerinde ürün. Sıcak içeceklerden paylaşmalık kutulara kadar her şey menüde."
             />
             <Reveal delay={150}>
               <Button href="/menu" variant="outline">
@@ -140,7 +167,7 @@ export default function HomePage() {
           </div>
 
           <div className="mt-14 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-            {featured.slice(0, 4).map((p, i) => (
+            {picks.map((p, i) => (
               <Reveal key={p.slug} delay={i * 80}>
                 <ProductCard product={p} index={i} />
               </Reveal>
@@ -204,19 +231,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ───────────── Bambaşka Box story ───────────── */}
-      <PhotoStory
-        id="box"
-        eyebrow="Paylaşmalık"
-        heading={
-          <>
-            Bambaşka Box&rsquo;un{" "}
-            <em className="italic text-gold-300">içinde ne var?</em>
-          </>
-        }
-        frames={boxStory}
-        cta={{ href: "/menu#waffle", label: "Bambaşka Box · ₺1.350" }}
-      />
+      <BoxFeature />
 
       {/* ───────────── Concept / venue ───────────── */}
       <section className="py-24 lg:py-32">
@@ -289,6 +304,8 @@ export default function HomePage() {
           </Reveal>
         </div>
       </section>
+
+      <InstagramStrip />
 
       {/* ───────────── Visit ───────────── */}
       <section className="py-24 lg:py-32">
